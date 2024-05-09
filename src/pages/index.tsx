@@ -1,186 +1,651 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import Link from "@docusaurus/Link";
 import GradientText from "../components/GradientText";
 import Layout from "@theme/Layout";
 import { TweetCardProps } from "react-tweet-card";
 import BrowserOnly from "@docusaurus/BrowserOnly";
-const tweetsJupPromise: TweetCardProps[] = [
-  {
-    author: {
-      name: "Jupiter 🪐",
-      username: "JupiterExchange",
-      image:
-        "https://pbs.twimg.com/profile_images/1661738815890022410/F8y4vBky_400x400.jpg",
-    },
-    tweet: `It’s our time
-    We are ready
-    Users want it
-    Pie is baking 
-    
-    So let us unite as one big happy community and ecosystem to bring the masses over to the decentralized meta.
-    
-    Together, we can reach goals and bake pies that seemed impossible just a year ago.
-    
-    And if not us, who?`,
-    time: new Date(2023, 11, 17, 6, 2),
-    permalink: "https://twitter.com/JupiterExchange/status/1736144803279339602",
-  },
-  {
-    author: {
-      name: "meow 🥧",
-      username: "weremeow",
-      image:
-        "https://pbs.twimg.com/profile_images/1714205175815307264/-Uq7WveP_400x400.jpg",
-    },
-    tweet: `My thesis for Jupiter is actually really really simple - if you have great product, chill vibes and healthy ecosystem - it’s really hard to fail.
+import { cn } from "../utils";
 
-    The first is super hard but needs persistence and endless forging (fire)
-    The second is all about trying your best and letting the community and market bring you along (water)
-    The third one is about recognizing the deeply symbiotic and spiritual relationship between you and the ecosystem (air)
-    
-    You are the ecosystem and the ecosystem is you. `,
-    time: new Date(2023, 11, 23, 7, 2),
-    permalink: "https://twitter.com/weremeow/status/1738334323114492122",
-  },
-  {
-    author: {
-      name: "meow 🥧",
-      username: "weremeow",
-      image:
-        "https://pbs.twimg.com/profile_images/1714205175815307264/-Uq7WveP_400x400.jpg",
-    },
-    tweet: `Operating ethos of Jupiter 
-    - we fuck up we own up
-    - not scale more than we can afford to 
-    - always engage, never pacify 
-    - always fast, never rushed 
-    - all fees made will be onchain or announced 
-    - black swan resilient 
-    - pragmatically idealistic 
-    - correctness is hard, but we always listen
-    - ends will never justify the means
-    - we ship aggressively but incrementally
-    - jup is an incredibly valuable resource 
-    - open to collab w all, but necessarily careful
-    - vibe is not a byproduct, vibe is the product
-    - ecosystem & industry health above any gain
-    - advance the meta `,
-    time: new Date(2023, 11, 21, 10, 48),
-    permalink:
-      "https://twitter.com/weremeow/status/1737847520750166074",
-  },
-];
-const tweetsCexReplacement: TweetCardProps[] = [
-  {
-    author: {
-      name: "Jeremy Allaire",
-      username: "jerallaire",
-      image:
-        "https://pbs.twimg.com/profile_images/1501707897641779208/cpB2Dk9__400x400.jpg",
-    },
-    tweet: `I am super impressed with @JupiterExchange on @solana.
-    Truly excellent UX and features.  An example of maturation in a range of infrastructure -- wallets, usdc on solana liquidity and availability, and product execution.`,
-    time: new Date(2023, 10, 15, 17, 20),
-    permalink: "https://twitter.com/jerallaire/status/1724718929447371174",
-  },
-  {
-    author: {
-      name: "KEMOSABE",
-      username: "KEMOS4BE",
-      image:
-        "https://pbs.twimg.com/profile_images/1734717290346668032/ZzuUh064_400x400.jpg",
-    },
-    tweet:
-      "Jupiter is an objectively better dApp than uniswap, or any other app on the Ethereum network.",
-    time: new Date(2023, 11, 23, 8, 51),
-    permalink: "https://twitter.com/KEMOS4BE/status/1738361680978153537",
-  },
-  {
-    author: {
-      name: "foobar",
-      username: "0xfoobar",
-      image:
-        "https://pbs.twimg.com/profile_images/1745824328594214912/-P4ZBCue_400x400.jpg",
-    },
-    tweet: `jupiter dca feature is the first 0-to-1 UX improvement i've seen in a long while. both feasible cost-wise and simple enough interface to find and use`,
-    time: new Date(2023, 11, 16, 10, 47),
-    permalink: "https://twitter.com/0xfoobar/status/1735854106722336883",
-  },
-  {
-    author: {
-      name: "Joe Kreate",
-      username: "joekreate",
-      image:
-        "https://pbs.twimg.com/profile_images/1648119841189150722/-j2p8UeW_400x400.jpg",
-    },
-    tweet:
-      `Think we take how amazing @JupiterExchange is for granted. Can't tell you how nice it is to have on-chain limit orders and DCA. 
-      Don't even think I realized that's what kept me from doing more on-chain trading until it existed.`,
-    time: new Date(2023, 11, 16, 10, 27),
-    permalink: "https://twitter.com/joekreate/status/1735848992679076161",
-  },
-  {
-    author: {
-      name: "Topo Gigio",
-      username: "TopoGigio_sol",
-      image:
-        "https://pbs.twimg.com/profile_images/1743441039522775040/zsyVpoqT_400x400.jpg",
-    },
-    tweet: `Did you know?: @JupiterExchange has a bridge feature? Where it will compare rates and find you the most efficient path to $SOL
-
-    Jupiter, for me, is the single most important app on $SOL
-    
-    It is our Grand Central Station. 
-    
-    Love at first swap 
-    GM`,
-    time: new Date(2023, 11, 21, 22, 36),
-    permalink:
-      "https://twitter.com/TopoGigio_sol/status/1737844551317147964",
-  },
-  {
-    author: {
-      name: "Abbas",
-      username: "Abbasshaikh42",
-      image:
-        "https://pbs.twimg.com/profile_images/1726165383982489600/pEafd7Kv_400x400.jpg",
-    },
-    tweet: `Tell me this isn't a gorgeous fucking product by @JupiterExchange
-    
-    This would previously require me to use a slow, redacted CEX that requires KYC and requires me to handover custody of my assets.
-    
-    The performant chain thesis is simple:
-    When your base layer does not require weeks and months of development efforts purely directed towards gas/fee optimizations, you allow your builders to innovate and focus purely on the product & they make the magic happen`,
-    time: new Date(2023, 11, 16, 16, 28),
-    permalink: "https://twitter.com/Abbasshaikh42/status/1735940030865277244",
-  },
-];
-export default function Home(): JSX.Element {
+const JupiterTopics = () => {
   return (
-    <div
-      style={{
-        background:
-          "radial-gradient(50.42% 35.64% at 102.74% 101.94%, rgba(25, 197, 228, 0.38) 0%, rgba(25, 197, 228, 0) 100%), radial-gradient(131.41% 57.41% at 52.36% 23.89%, #060B09 0%, #050B08 51.81%, #0E2433 100%), #111726",
-      }}
-      className="home relative isolate  overflow-hidden pb-[390px] sm:pb-[250px]"
+    <div className="mt-10 xl:mt-24">
+      <div className="text-2xl font-semibold tracking-tighter  text-center max-md:max-w-full">
+        Quick Start
+      </div>
+
+      <div className="mt-4 w-full grid grid-cols-2 md:grid-cols-3 justify-center gap-2 text-sm xl:text-base font-bold whitespace-nowrap flex-wrap px-2 lg:px-0">
+        {/* <a href="" className="p-3 lg:px-5 lg:py-4 rounded-2xl bg-lime-200/[.03] hover:bg-lime-200/10 max-md:text-center !text-lime-200 hover:!no-underline">
+          Welcome to Solana
+        </a> */}
+        <a
+          href="#section-lfg-launchpad"
+          className="p-3 lg:px-5 lg:py-4 rounded-2xl bg-lime-200/[.03] hover:bg-lime-200/10 max-md:text-center !text-lime-200 hover:!no-underline"
+        >
+          LFG Launchpad
+        </a>
+
+        <a
+          href="https://www.jupresear.ch"
+          target="_blank"
+          className="p-3 lg:px-5 lg:py-4 rounded-2xl bg-lime-200/[.03] hover:bg-lime-200/10 max-md:text-center !text-lime-200 hover:!no-underline"
+        >
+          Jup Research
+        </a>
+        <a
+          href="https://vote.jup.ag"
+          target="_blank"
+          className="p-3 lg:px-5 lg:py-4 rounded-2xl bg-lime-200/[.03] hover:bg-lime-200/10 max-md:text-center !text-lime-200 hover:!no-underline"
+        >
+          Governance
+        </a>
+        {/* <a href="" className="p-3 lg:px-5 lg:py-4 rounded-2xl bg-lime-200/[.03] hover:bg-lime-200/10 max-md:text-center !text-lime-200 hover:!no-underline">
+          J.U.P Governance
+        </a> */}
+        {/* <a href="" className="p-3 lg:px-5 lg:py-4 rounded-2xl bg-lime-200/[.03] hover:bg-lime-200/10 max-md:text-center !text-lime-200 hover:!no-underline">
+          Ecosystem Token List
+        </a> */}
+      </div>
+    </div>
+  );
+};
+
+const JupiterProducts = () => {
+  return (
+    <div className="flex flex-col justify-center items-center mt-16 xl:mt-[100px] max-w-screen-xl max-md:mt-10 max-md:max-w-full">
+      <div className="text-2xl font-semibold  text-center max-md:max-w-full">
+        Jupiter Products
+      </div>
+      <div className="mt-4 w-full">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 gap-y-2 lg:gap-5 lg:gap-y-14">
+          <div className="flex flex-col flex-1">
+            <div className="relative flex-1 flex flex-col justify-center p-4 lg:p-6 mx-auto w-full rounded-2xl bg-[#71E5EC]/[0.05] bg-opacity-10 max-md:px-1 max-md:pb-2">
+              <div className="text-lg font-bold text-center">Swap</div>
+              <a
+                href="https://jup.ag/swap"
+                target="_blank"
+                className={cn(
+                  "flex gap-3 px-3.5 py-2.5 mt-3 lg:mt-4 text-sm font-semibold hover:no-underline !text-[#00BCF0] rounded-lg bg-[#00BCF0] bg-opacity-10 outline outline-1 outline-[rgba(0,190,240,0.5)] hover:bg-opacity-20 cursor-pointer"
+                )}
+              >
+                <img src="img/home/icon-launch.svg" />
+                <div className="text-xs lg:text-sm">Launch Swap</div>
+              </a>
+              <a
+                href="https://station.jup.ag/guides/jupiter-swap/swap"
+                target="_blank"
+                className={cn(
+                  "flex gap-3 px-3.5 py-2.5 mt-2 text-sm font-semibold hover:no-underline !text-[#00BCF0] rounded-lg bg-[#00BCF0] bg-opacity-10 outline outline-1 outline-[rgba(0,190,240,0.5)] hover:bg-opacity-20 cursor-pointer"
+                )}
+              >
+                <img src="img/home/icon-guide.svg" />
+                <div className="text-xs lg:text-sm">User Guide</div>
+              </a>
+            </div>
+          </div>
+
+          <div className="flex flex-col flex-1">
+            <div className="relative flex-1 flex flex-col justify-center p-4 lg:p-6 mx-auto w-full rounded-2xl bg-[#71E5EC]/[0.05] bg-opacity-10 max-md:px-1 max-md:pb-2">
+              <div className="text-lg font-bold  text-center whitespace-nowrap">
+                Limit Order
+              </div>
+              <a
+                href="https://jup.ag/limit"
+                target="_blank"
+                className={cn(
+                  "flex gap-3 px-3.5 py-2.5 mt-3 lg:mt-4 text-sm font-semibold hover:no-underline !text-[#00BCF0] rounded-lg bg-[#00BCF0] bg-opacity-10 outline outline-1 outline-[rgba(0,190,240,0.5)] hover:bg-opacity-20 cursor-pointer"
+                )}
+              >
+                <img src="img/home/icon-launch.svg" />
+                <div className="text-xs lg:text-sm">Launch Limit Order</div>
+              </a>
+              <a
+                href="https://station.jup.ag/guides/limit-order/limit-order"
+                target="_blank"
+                className={cn(
+                  "flex gap-3 px-3.5 py-2.5 mt-2 text-sm font-semibold hover:no-underline !text-[#00BCF0] rounded-lg bg-[#00BCF0] bg-opacity-10 outline outline-1 outline-[rgba(0,190,240,0.5)] hover:bg-opacity-20 cursor-pointer"
+                )}
+              >
+                <img src="img/home/icon-guide.svg" />
+                <div className="text-xs lg:text-sm">User Guide</div>
+              </a>
+            </div>
+          </div>
+          <div className="flex flex-col flex-1">
+            <div className="relative flex-1 flex flex-col justify-center p-4 lg:p-6 mx-auto w-full rounded-2xl bg-[#71E5EC]/[0.05] bg-opacity-10 max-md:px-1 max-md:pb-2">
+              <div className="text-lg font-bold  text-center">DCA</div>
+              <a
+                href="https://jup.ag/dca"
+                target="_blank"
+                className={cn(
+                  "flex gap-3 px-3.5 py-2.5 mt-3 lg:mt-4 text-sm font-semibold hover:no-underline !text-[#00BCF0] rounded-lg bg-[#00BCF0] bg-opacity-10 outline outline-1 outline-[rgba(0,190,240,0.5)] hover:bg-opacity-20 cursor-pointer"
+                )}
+              >
+                <img src="img/home/icon-launch.svg" />
+                <div className="text-xs lg:text-sm">Launch DCA</div>
+              </a>
+              <a
+                href="https://station.jup.ag/guides/dca/how-to-dca"
+                target="_blank"
+                className={cn(
+                  "flex gap-3 px-3.5 py-2.5 mt-2 text-sm font-semibold hover:no-underline !text-[#00BCF0] rounded-lg bg-[#00BCF0] bg-opacity-10 outline outline-1 outline-[rgba(0,190,240,0.5)] hover:bg-opacity-20 cursor-pointer"
+                )}
+              >
+                <img src="img/home/icon-guide.svg" />
+                <div className="text-xs lg:text-sm">User Guide</div>
+              </a>
+            </div>
+          </div>
+          <div className="flex flex-col flex-1">
+            <div className="relative flex-1 flex flex-col justify-center p-4 lg:p-6 mx-auto w-full rounded-2xl bg-[#71E5EC]/[0.05] bg-opacity-10 max-md:px-1 max-md:pb-2">
+              <div className="text-lg font-bold  text-center">Perps</div>
+              <a
+                href="https://jup.ag/perps"
+                target="_blank"
+                className={cn(
+                  "flex gap-3 px-3.5 py-2.5 mt-3 lg:mt-4 text-sm font-semibold hover:no-underline !text-[#00BCF0] rounded-lg bg-[#00BCF0] bg-opacity-10 outline outline-1 outline-[rgba(0,190,240,0.5)] hover:bg-opacity-20 cursor-pointer"
+                )}
+              >
+                <img src="img/home/icon-launch.svg" />
+                <div className="text-xs lg:text-sm">Launch Perps</div>
+              </a>
+              <a
+                href="https://station.jup.ag/labs/perpetual-exchange/overview"
+                target="_blank"
+                className={cn(
+                  "flex gap-3 px-3.5 py-2.5 mt-2 text-sm font-semibold hover:no-underline !text-[#00BCF0] rounded-lg bg-[#00BCF0] bg-opacity-10 outline outline-1 outline-[rgba(0,190,240,0.5)] hover:bg-opacity-20 cursor-pointer"
+                )}
+              >
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/7111a82941aa614d6513ab0b6fd9fe5fafe5d1a46c07d49684acb29ccdb98c52?"
+                  className="my-auto w-4 aspect-square"
+                />
+                <div className="text-xs lg:text-sm">User Guide</div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ChevronRight = ({ width = 14, height = 14 }) => {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <div className="absolute hidden sm:flex z-[-1] w-full top-0 right-0">
-        <img src="/img/home/header-bg.png" alt="" className="w-full" />
-        <div className="absolute w-[16.6%] top-[12%] left-[69%]">
-          <img src="/img/home/cat.png" alt="" className="cat" />
+      <path
+        d="M1.1665 7.00033H12.8332M12.8332 7.00033L6.99984 1.16699M12.8332 7.00033L6.99984 12.8337"
+        stroke="currentColor"
+        strokeWidth="1.66667"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+const JupiterProjects = () => {
+  return (
+    <div className="w-full">
+      <div className="text-3xl xl:text-4xl text-center lg:text-start font-semibold !text-[#00BEF0]">
+        Projects
+      </div>
+
+      <div className="mt-5 grid grid-cols-1 xl:grid-cols-1 sm:grid-cols-2 gap-2">
+        <a
+          href="https://station.jup.ag/docs/get-your-token-onto-jup"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>Get Listed on Jupiter</span>
+          <ChevronRight />
+        </a>
+        <a
+          href="https://www.jupresear.ch/t/lfg-launchpad-introducing-your-project-to-the-community/5234/2"
+          target="_blank"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>Apply to LFG</span>
+          <ChevronRight />
+        </a>
+      </div>
+    </div>
+  );
+};
+
+const JupiterDevelopers = () => {
+  return (
+    <div className="w-full">
+      <div className="text-3xl xl:text-4xl text-center lg:text-start font-bold !text-[#00BEF0]">
+        Developers
+      </div>
+
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <a
+          href="https://station.jup.ag/docs/apis/swap-api"
+          target="_blank"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>v6 Swap API</span>
+          <ChevronRight />
+        </a>
+        <a
+          href="https://station.jup.ag/docs/apis/payments-api"
+          target="_blank"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>Payments API</span>
+          <ChevronRight />
+        </a>
+        <a
+          href="https://station.jup.ag/docs/limit-order/limit-order-api"
+          target="_blank"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>Limit Orders API</span>
+          <ChevronRight />
+        </a>
+        <a
+          href="https://terminal.jup.ag"
+          target="_blank"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>Jupiter Terminal</span>
+          <ChevronRight />
+        </a>
+        <a
+          href="https://station.jup.ag/docs/dca/dca-sdk"
+          target="_blank"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>DCA with SDK</span>
+          <ChevronRight />
+        </a>
+        <a
+          href="https://station.jup.ag/docs/additional-topics/referral-program"
+          target="_blank"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>Referral Program</span>
+          <ChevronRight />
+        </a>
+      </div>
+    </div>
+  );
+};
+
+const JupiterLFGLaunchpad = () => {
+  return (
+    <div className="w-full text-v2-lily/[.03]">
+      <div className="text-3xl xl:text-4xl text-center lg:text-start font-semibold !text-[#00BEF0]">
+        LFG Launchpad
+      </div>
+
+      <div className="mt-5 flex flex-col gap-2">
+        <a
+          href="https://twitter.com/weremeow/status/1749577177333645770"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>What is LFG</span>
+          <ChevronRight />
+        </a>
+        <a
+          href="https://www.jupresear.ch/t/jupiter-lfg-launchpad-beta/31"
+          target="_blank"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>Project Introductions</span>
+          <ChevronRight />
+        </a>
+        <a
+          href="https://www.youtube.com/@jup-ecosystem/featured"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>Youtube AMAs/Resources</span>
+          <ChevronRight />
+        </a>
+        {/* <a
+          href=""
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>Vote</span>
+          <ChevronRight />
+        </a> */}
+      </div>
+    </div>
+  );
+};
+
+const JupiterJupAcronym = () => {
+  return (
+    <div className="w-full text-v2-lily/[.03]">
+      <div className="text-3xl xl:text-4xl text-center lg:text-start font-semibold !text-[#00BEF0]">
+        {"J.U.P"}
+      </div>
+      <div className="mt-5 flex flex-col gap-2">
+        <a
+          href="https://twitter.com/weremeow/status/1764304344545894904"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>What is J.U.P</span>
+          <ChevronRight />
+        </a>
+        <a
+          href="https://twitter.com/JupiterExchange/status/1763214551900729797"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>What is J.U.P. (video)</span>
+          <ChevronRight />
+        </a>
+        <a
+          href="https://twitter.com/JupiterExchange/status/1757079166212505989"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>Working Groups</span>
+          <ChevronRight />
+        </a>
+        {/* <a
+          href=""
+          className={cn(
+            "py-3 px-6 font-semibold !text-[#00BEF0] rounded-xl items-center flex gap-2 bg-[#00BEF0]/[.03] hover:bg-[#00BEF0]/[.1] !no-underline",
+            `transition-all hover:gap-3`
+          )}
+        >
+          <span>Uplink Working Group</span>
+          <ChevronRight />
+        </a> */}
+      </div>
+    </div>
+  );
+};
+
+const JupiterCredits = () => {
+  return (
+    <div className="w-full">
+      <div className="text-center text-lime-200 text-2xl font-semibold">
+        The Best On-Chain Exchange
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-2 lg:gap-8 mt-6">
+        <div className="justify-center items-start gap-8 w-full">
+          <a
+            href="https://twitter.com/jerallaire/status/1724718929447371174"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-4 lg:p-8 bg-[#20292F] rounded-2xl justify-center items-start flex flex-col w-full hover:bg-[#20292F]/[.9] hover:no-underline"
+          >
+            <div className="flex gap-3">
+              <img
+                className="w-9 h-9 rounded-full border border-lime-200 border-opacity-20"
+                src="/img/home/credit-avatar-1.png"
+              />
+              <div className="items-start">
+                <div className="text-lime-200 font-semibold">
+                  Jeremy Allaire (@jerallaire)
+                </div>
+                <div className="text-lime-200 text-opacity-50 text-xs leading-none">
+                  5:20 PM · Nov 15, 2023
+                </div>
+              </div>
+            </div>
+            <div className="flex items-start gap-6 leading-6 text-xs md:text-sm lg:text-base">
+              <div className="mt-5 text-v2-lily/[.65] inline">
+                <span className="">I am super impressed with</span>
+                <br />
+                <a
+                  className="text-decoration-none underline text-v2-lily/[.65] pr-1"
+                  href="https://twitter.com/JupiterExchange"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  @JupiterExchange
+                </a>
+                <span className="">on</span>
+                <a
+                  className="text-decoration-none underline text-v2-lily/[.65]  pl-1"
+                  href="https://twitter.com/solana"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  @solana
+                </a>
+                <span className="">
+                  . Truly excellent UX and features. An example of maturation in
+                  a range of infrastructure -- wallets, usdc on solana liquidity
+                  and availability, and product execution.
+                </span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div className="justify-center items-start gap-8 w-full">
+          <a
+            href="https://twitter.com/TopoGigio_sol/status/1737844551317147964"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-4 lg:p-8 bg-[#20292F] rounded-2xl justify-center items-start flex flex-col w-full hover:bg-[#20292F]/[.9] hover:no-underline"
+          >
+            <div className="flex gap-3">
+              <img
+                className="w-9 h-9 rounded-full border border-lime-200 border-opacity-20"
+                src="/img/home/credit-avatar-2.png"
+              />
+              <div className="items-start">
+                <div className="text-lime-200 font-semibold">
+                  Topo Gigio (@TopoGigio_sol)
+                </div>
+                <div className="text-lime-200 text-opacity-50 text-xs leading-none">
+                  10:36 PM · Dec 21, 2023
+                </div>
+              </div>
+            </div>
+            <div className="flex items-start gap-6 leading-6 text-xs md:text-sm lg:text-base">
+              <div className="mt-5 text-v2-lily/[.65]">
+                <span className="">Did you know?: </span>
+                <a
+                  className="text-decoration-none underline text-v2-lily/[.65] px-1"
+                  href="https://twitter.com/JupiterExchange"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  @JupiterExchange
+                </a>
+
+                <div className="">
+                  {" "}
+                  has a bridge feature? Where it will compare rates and find you
+                  the most efficient path to $SOL Jupiter, for me, is the single
+                  most important app on $SOL
+                  <div className="mt-3" />
+                  It is our Grand Central Station.
+                  <div className="mt-3" />
+                  Love at first swap
+                  <div className="mt-3" />
+                  GM
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div className="justify-center items-start gap-8 w-full">
+          <a
+            href="https://twitter.com/Abbasshaikh42/status/1735940030865277244"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-4 lg:p-8 bg-[#20292F] rounded-2xl justify-center items-start flex flex-col w-full hover:bg-[#20292F]/[.9] hover:no-underline"
+          >
+            <div className="flex gap-3">
+              <img
+                className="w-9 h-9 rounded-full border border-lime-200 border-opacity-20"
+                src="/img/home/credit-avatar-3.png"
+              />
+              <div className="items-start">
+                <div className="text-lime-200 text-base font-semibold">
+                  Abbas (@abbassshaikh42)
+                </div>
+                <div className="text-lime-200 text-opacity-50 text-xs leading-none">
+                  4:28 PM · Dec 16, 2023
+                </div>
+              </div>
+            </div>
+            <div className="flex items-start gap-6">
+              <div className="mt-5 text-v2-lily/[.65] leading-6 text-xs md:text-sm lg:text-base">
+                <span className="">
+                  Tell me this isn't a gorgeous fucking product by{" "}
+                </span>
+                <a
+                  className="text-decoration-none underline text-v2-lily/[.65] px-1"
+                  href="https://twitter.com/JupiterExchange"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  @JupiterExchange
+                </a>
+                <p className="mt-4">
+                  This would previously require me to use a slow, redacted CEX
+                  that requires KYC and requires me to handover custody of my
+                  assets.
+                </p>
+                <p className="mt-4">
+                  The performant chain thesis is simple: When your base layer
+                  does not require weeks and months of development efforts
+                  purely directed towards gas/fee optimizations, you allow your
+                  builders to innovate and focus purely on the product & they
+                  make the magic happen
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Content = () => {
+  return (
+    <div className="w-full min-h-screen text-white flex flex-col items-center">
+      <div className="bg-v2-lily/5 w-full h-[1px]" />
+
+      <div className="w-full max-xl:px-2 xl:max-w-7xl flex flex-col mb-[80px]">
+        <div className="flex flex-col justify-center self-center px-20 mt-12 text-center max-md:px-5 max-md:mt-10 w-full">
+          <div
+            className={cn(
+              "font-bold max-md:max-w-full text-3xl xl:text-7xl",
+              "bg-gradient-to-r from-[rgba(0,190,240,1)] to-[rgba(199,242,132,1)] text-transparent bg-clip-text"
+            )}
+          >
+            Jupiter Space Station
+          </div>
+          <div className="self-center text-xs xl:text-[20px] text-v2-lily/50 w-full text-wrap px-4 mt-4">
+            Welcome to the space station — home for catdets curious about
+            Jupiter
+          </div>
+        </div>
+
+        <JupiterTopics />
+        <JupiterProducts />
+      </div>
+
+      <div className="w-full bg-[#13181D] flex flex-col items-center">
+        <div className="text-v2-lily/[.03] max-xl:px-4 xl:max-w-7xl w-full flex flex-col xl:flex-row justify-center gap-10 py-[60px]">
+          <div className="w-full xl:w-1/3">
+            <JupiterProjects />
+          </div>
+          <div className="w-full xl:w-2/3">
+            <JupiterDevelopers />
+          </div>
+        </div>
+
+        <div className="bg-v2-lily/5 w-full h-[1px]" />
+
+        <div
+          id="section-lfg-launchpad"
+          className="text-v2-lily/[.03] max-xl:px-4 xl:max-w-7xl w-full flex flex-col md:flex-row justify-center gap-10 py-[60px]"
+        >
+          <JupiterLFGLaunchpad />
+          <JupiterJupAcronym />
         </div>
       </div>
 
-      <div className="absolute flex z-[-1] w-full overflow-hidden bottom-0 right-0">
-        <img
-          src="/img/home/footer-bg.png"
-          alt=""
-          className="h-[301px] w-full object-cover object-right"
-        />
+      <div className="bg-[#0D1114] w-full py-[60px] flex justify-center">
+        <div className="max-xl:px-4 xl:max-w-7xl w-full">
+          <JupiterCredits />
+        </div>
       </div>
+    </div>
+  );
+};
 
+export default function Home(): JSX.Element {
+  return (
+    <div className="home overflow-hidden">
       <Layout>
-        <div className="relative isolate min-h-screen overflow-hidden text-[#E8F9FF]/60 px-[44px]">
+        <Content />
+        {/* <div className="relative isolate min-h-screen overflow-hidden text-[#E8F9FF]/60 px-[44px]">
           <div className="absolute flex sm:hidden z-[-1] w-full top-0 right-0">
             <img
               src="/img/home/header-bg-mobile.png"
@@ -194,7 +659,7 @@ export default function Home(): JSX.Element {
           <div className="mt-[276px] sm:mt-[226px] max-w-content ml-auto mr-auto">
             <section className="mr-auto text-center sm:text-left text-white">
               <span className="max-w-[574px]">
-                <h1 className="font-bold text-[40px] sm:text-[80px] leading-[1.1125]">
+                <h1 className="font-bold text-[40px] sm:text-[80px] 1.1125]">
                   Jupiter <br /> Space Station
                 </h1>
                 <p className="mt-5 opacity-75 text-lg font-medium">
@@ -207,7 +672,7 @@ export default function Home(): JSX.Element {
                     style={{
                       boxShadow: `0px 1px 2px rgba(16, 24, 40, 0.05)`,
                     }}
-                    className="!text-[#19232D] hover:text-black hover:bg-white transition duration-250 ease-linear !no-underline group inline-flex items-center bg-[#C7F284] rounded-lg font-semibold text-base px-8 py-4 space-x-2 mt-4 uppercase"
+                    className="!text-[#19232D] hover:text-black hover:bg-white transition duration-250 ease-linear !no-underline group items-center bg-[#C7F284] rounded-lg font-semibold text-base px-8 py-4 space-x-2 mt-4 uppercase"
                   >
                     <span>User Guides</span>
                     <svg
@@ -232,7 +697,7 @@ export default function Home(): JSX.Element {
                     style={{
                       boxShadow: `0px 1px 2px rgba(16, 24, 40, 0.05)`,
                     }}
-                    className="text-white border-white hover:text-black hover:bg-white transition duration-250 ease-linear !no-underline group inline-flex items-center bg-transparent rounded-lg font-semibold text-base px-[14px] py-[15px] space-x-2 mt-4 uppercase border-[1px] border-solid"
+                    className="text-white border-white hover:text-black hover:bg-white transition duration-250 ease-linear !no-underline group items-center bg-transparent rounded-lg font-semibold text-base px-[14px] py-[15px] space-x-2 mt-4 uppercase border-[1px] border-solid"
                   >
                     <span>Developer Docs</span>
                     <svg
@@ -257,18 +722,16 @@ export default function Home(): JSX.Element {
             <div className="sm:bg-[url('/img/home/stars.png')] bg-cover">
               <div className="max-w-content mx-auto">
                 <section className="mt-[108px] sm:mt-[145px] text-center sm:text-left">
-                  <h2 className="text-white text-[28px] sm:text-[36px] leading-[1.22]">
-                    The <GradientText>Ultimate CEX Replacement</GradientText> 🚀
-                    on Solana
+                  <h2 className="text-white text-[28px] sm:text-[36px] 1.22]">
+                    The <GradientText>Best Onchain Exchange</GradientText> 🚀
                   </h2>
                   <p className="mt-6 text-lg">
-                    We're building the ultimate CEX replacement, and we believe
-                    Solana is the perfect home for it. Marrying low transaction
-                    fees with Jupiter's commitment to product excellence, you'll
-                    never have to go back to CEXes again.
+                    We deliver the finest onchain experience, marrying Solana's
+                    low transaction fees with Jupiter's advanced routing and
+                    commitment to product excellence.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] mt-9">
-                    {tweetsCexReplacement.map((tweet, index) => (
+                    {tweetsBestExchange.map((tweet, index) => (
                       <div key={index}>
                         <BrowserOnly>
                           {() => {
@@ -282,26 +745,62 @@ export default function Home(): JSX.Element {
                   </div>
                 </section>
               </div>
-              <section className="mt-[108px] sm:mt-[145px] text-center sm:text-left">
-                <h2 className="text-white text-[28px] sm:text-[36px] leading-[1.22]">
-                  <GradientText>The JUP Summary:</GradientText> Strategy, Thesis, and Ethos
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] mt-9">
-                  {tweetsJupPromise.map((tweet, index) => (
-                    <div key={index}>
-                      <BrowserOnly>
-                        {() => {
-                          const TweetCard = require("react-tweet-card").default;
-                          return <TweetCard {...tweet} theme="dim" />;
-                        }}
-                      </BrowserOnly>
-                    </div>
-                  ))}
-                </div>
-              </section>
+              <div className="max-w-content mx-auto">
+                <section className="mt-[108px] sm:mt-[145px] text-center sm:text-left">
+                  <h2 className="text-white text-[28px] sm:text-[36px] 1.22]">
+                    With <GradientText>Features That People Love</GradientText>{" "}
+                    ❤️
+                  </h2>
+                  <p className="mt-6 text-lg">
+                    Jupiter's products covers swaps, DCA, limit orders,
+                    perpetuals, and a launchpad, with different options for
+                    users and developers. We're also constantly adding new
+                    features to serve you even better.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] mt-9">
+                    {tweetsFeatures.map((tweet, index) => (
+                      <div key={index}>
+                        <BrowserOnly>
+                          {() => {
+                            const TweetCard =
+                              require("react-tweet-card").default;
+                            return <TweetCard {...tweet} theme="dim" />;
+                          }}
+                        </BrowserOnly>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </div>
+              <div className="max-w-content mx-auto">
+                <section className="mt-[108px] sm:mt-[145px] text-center sm:text-left">
+                  <h2 className="text-white text-[28px] sm:text-[36px] 1.22]">
+                    Put Together By An{" "}
+                    <GradientText>Awesome Community</GradientText> 🙌
+                  </h2>
+                  <p className="mt-6 text-lg">
+                    With catdets, working groups, and the DAO growing everyday,
+                    we have a strong decentralized community of users and
+                    builders working together to bring you the very best.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-[14px] mt-9">
+                    {tweetsCommunity.map((tweet, index) => (
+                      <div key={index}>
+                        <BrowserOnly>
+                          {() => {
+                            const TweetCard =
+                              require("react-tweet-card").default;
+                            return <TweetCard {...tweet} theme="dim" />;
+                          }}
+                        </BrowserOnly>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </Layout>
     </div>
   );

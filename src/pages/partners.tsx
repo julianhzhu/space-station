@@ -10,7 +10,10 @@ const bridge = '/img/bridge.png';
 const payment = '/img/payment.png';
 const nft = '/img/nft.png';
 const game = '/img/game.png';
+const infra = '/img/infra.png';
 
+const bitget = 'img/wallet/bitget.png'
+const crypto = 'img/wallet/crypto.png'
 const gemwallet = '/img/wallet/gemwallet.svg';
 const phantom = '/img/wallet/phantom.svg';
 const solflare = '/img/wallet/solflare.svg';
@@ -25,6 +28,7 @@ const ottr = '/img/wallet/ottr.png';
 const nightly = '/img/wallet/nightly.svg';
 const keyapp = '/img/wallet/key.svg';
 const tiplink = '/img/wallet/tiplink.svg';
+const okx = '/img/wallet/okx.png';
 
 const birdeye = '/img/defi/birdeye.png';
 const bonfida = '/img/defi/bonfida.png';
@@ -94,6 +98,8 @@ const hyperspace = '/img/nft/hyperspace.svg';
 const liquifynft = '/img/nft/liquifynft.svg';
 const solsea = '/img/nft/solsea.svg';
 
+const quicknode = '/img/infra/quicknode.svg';
+
 const sections = [
   {
     id: 1,
@@ -108,9 +114,24 @@ const sections = [
     description: `DeFi wallets are a crucial tool for interacting with DeFi protocols in the Web3 ecosystem. They store and manage cryptocurrency assets and allow access to decentralized exchanges, lending platforms, and liquidity pools. Wallet partners have an in-wallet swap feature, like Jupiter, available on iOS, Android, and Web Widget platforms. This allow users to easily exchange cryptocurrencies within their wallet for the optimum price with seamless experience.`,
     cards: [
       {
+        title: 'Bitget Wallet',
+        logo: bitget,
+        link: 'https://web3.bitget.com/en',
+      },
+      {
+        title: 'OKX Wallet',
+        logo: okx,
+        link: 'https://www.okx.com/web3',
+      },
+      {
         title: 'Gem Wallet',
         logo: gemwallet,
         link: 'https://gemwallet.com',
+      },
+      {
+        title: 'Crypto.com',
+        logo: crypto,
+        link: 'https://crypto.com/defi-wallet',
       },
       {
         title: 'Phantom',
@@ -314,7 +335,7 @@ const sections = [
       {
         title: 'Openbook',
         logo: openbook,
-        link: 'https://www.openbook-solana.com/',
+        link: 'https://openbookdex.com/',
       },
       {
         title: 'Meteora',
@@ -576,6 +597,25 @@ const sections = [
         title: 'Famous Fox Federation',
         logo: famousfoxfederation,
         link: 'https://famousfoxes.com/',
+      },
+    ],
+  },
+  {
+    id: 8,
+    logo: infra,
+    title: 'Infrastructure',
+    header: (
+      <div className="relative mb-4">
+        <img src={nft} height={37} />
+        <h2 className="absolute top-[4px] left-[40px]">Infrastructure</h2>
+      </div>
+    ),
+    description: `Blockchain infrastructure providers deliver the backbone for decentralized networks, offering scalable and secure platforms for transactions, smart contracts, and application development. They enable seamless access to blockchain ecosystems, supporting the growth of decentralized applications and services.`,
+    cards: [
+      {
+        title: 'QuickNode',
+        logo: quicknode,
+        link: 'https://www.quicknode.com/',
       },
     ],
   },
