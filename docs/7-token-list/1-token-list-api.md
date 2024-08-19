@@ -1,66 +1,93 @@
 ---
-sidebar_label: Token List API
-description: List only verified tokens on your DApp
+sidebar_label: "Ecosystem Token List API"
+description: "Consolidated data for tokens, markets, and ecosystem partners. Perfect for developers."
+title: "Ecosystem Master Token List"
 ---
-# Token List API: Get validated tokens on your DApp
-![cat_list](./cat_list.png)
 
-The Jupiter Token List API is an **open, collaborative, and dynamic** token list to make trading on Solana more transparent and safer for users and developers.
+<head>
+    <title>Jupiter Token List API: Your Crypto Data Gateway | Jupiter Station</title>
+    <meta name="twitter:card" content="summary" />
+</head>
 
-Our Approach: [Introducing the Jupiter Token List API](/blog/jupiter-token-list-api)
+### API Endpoints
 
-## Core Principles
+<details>
+  <summary>
+    <div>
+      <div className="api-method-box post">GET tokens by tag</div>
+      <p className="api-method-path">https://tokens.jup.ag/tokens?tags=verified</p>
+    </div>
+  </summary>
 
-1. **Safety:** Only validated token addresses are shown by default on the 'Strict List'.
-2. **Open:** Automatically adds new tokens with sufficient liquidity into the ‘Full’ list. The full list will always contain all tokens available for trade to give open access to all projects.
-3. **Un-opinionated:** All data (market, partner, community) is included and you can pick the tokens you need.
-4. **Collaborative:** We engage ecosystem partners to build a robust and comprehensive list with us by including their data.
-5. **Community Driven:** Our community drives the validation process.
+### Convenience Tags
 
-## 'Strict' and 'All' Lists
+For most people, these 2 tags are all you need. All tokens would either be verified or unknown.
 
-:::info Our lists only show tokens that satisfy our minimum liquidity requirements
-Our lists are designed for trading -- The "All" list only shows tokens that satisfy our minimum liquidity requirements. Tokens will automatically be picked up once they are above the threshold, and will fall off when they are below. See [Getting Your Token on Jupiter](/docs/get-your-token-onto-jup) for more details on liquidity requirements.
-:::
+| Parameter   | Description                        |
+|-------------|------------------------------------|
+| `verified`  | Tokens that we display as verified on jup.ag. Today, this is a superset consisting of tokens tagged “community” and “lst”. You can use this setting to automatically receive jupiter’s settings when we update our allowlist.
+| `unknown`  | Untagged tokens that we display a warning on on jup.ag.                                |
 
-For your convenience, we packed it into 2 endpoints for you to choose from.
+### Other Tags Available
 
-- **Strict:** https://token.jup.ag/strict
-    - Only tokens that are tagged "old-registry", "community", or "wormhole" verified.
-    - No unknown and banned tokens.
-- **All:** https://token.jup.ag/all
-    - Everything including unknown/untagged tokens that are picked up automatically.
-    - It does not include banned tokens by default. 
-    - To bring up banned tokens, append this flag to the endpoint. (?includeBanned=true). Often, projects notice that the token got banned and withdraw liquidity. As our lists are designed for trading, banned tokens that used to, but no longer meet our minimum liquidity requirements will not appear in this response. If you require the entire list of banned tokens -- please refer to [this banned tokens file in our Github repo.](https://github.com/jup-ag/token-list/blob/main/banned-tokens.csv)
+| Parameter   | Description                        |
+|-------------|------------------------------------|
+| `community` |  Tokens that are verified by the Jupiter community. To get a community tag for your project, go to https://catdetlist.jup.ag          |
+| `strict` |  Tokens that were validated previously in the strict-list repo. This repo will be deprecated, please use the community site to get a community tag going forward.          |
+| `lst` |  Sanctum’s list from their repo which we automatically pull: https://github.com/igneous-labs/sanctum-lst-list/blob/master/sanctum-lst-list.toml        |
+| `birdeye-trending` |   Top 100 trending tokens from birdeye: https://birdeye.so/find-gems?chain=solana        |
+| `clone` | Tokens from Clone protocol, from their repo: https://raw.githubusercontent.com/Clone-Protocol/token-list/main/token_mints.csv       |
+| `pump` |   Tokens that graduated from pump, from their API       |
+
+```
+Usage: You can pass in a single tag or multiple:
+
+- Single tag: https://tokens.jup.ag/tokens?tags=verified
+- Multiple tags: https://tokens.jup.ag/tokens?tags=lst,community
+```
+
+</details>
+
+<details>
+  <summary>
+    <div>
+      <div className="api-method-box post">GET token by mint</div>
+      <p className="api-method-path">https://tokens.jup.ag/token/So11111111111111111111111111111111111111112</p>
+    </div>
+  </summary>
+
+| Parameter   | Description                        |
+|-------------|------------------------------------|
+| `mint_address` |  Pass the mint address of the token you want like this https://tokens.jup.ag/token/So11111111111111111111111111111111111111112          |
+
+We only support filtering for 1 token at a time right now.
+
+Example response:
+
+```
+{"address":"jupSoLaHXQiZZTSfEWMTRRgpnyFm8f6sZdosWBjx93v","name":"Jupiter Staked SOL","symbol":"JupSOL","decimals":9,"logoURI":"https://static.jup.ag/jupSOL/icon.png","tags":["community","strict","lst"],"daily_volume":2228947.6686637774,"freeze_authority":null,"mint_authority":"EMjuABxELpYWYEwjkKmQKBNCwdaFAy4QYAs6W9bDQDNw"},
+```
+
+</details>
+
+<details>
+  <summary>
+    <div>
+      <div className="api-method-box post">GET tradable tokens only</div>
+      <p className="api-method-path">https://tokens.jup.ag/tokens_with_markets</p>
+    </div>
+  </summary>
+
+Get all tradable tokens that meet jup.ag’s routing and liquidity threshold. This is a large response, pleae consider fetching tokens by tags instead
+</details>
+
+Usage notes:
+- There is a rate limit of 30 requests per minute. Please pass a referer / origin in your request header
+- Enhanced metadata: We added daily volume, freeze authority and mint authority for your convenience. More fields will be available over time such as coingecko id.
+- If you see a token.jup.ag (without the s, the new one is tokens.jup.ag) in your codebase, that's our deprecated old API.
 
 
-## Tags & Extensions:
-
-Each token can have 1 or more of the following:
-
-- `tags` Old-registry: From the archived [Solana Labs token list repo](https://github.com/solana-labs/token-list). These tokens were added to the repo before July 2022. As this is the original token list in Solana, the tokens here are generally more recognised.
-- `tags` Community: Attested by Jupiter's communities. This includes newer and widely traded tokens created after the old-registry was archived like Bonk and Hades.
-- `tags` [Wormhole](https://github.com/wormhole-foundation/wormhole-token-list/blob/main/content/dest_solana.md): Bridged assets to Solana via wormhole
-- `tags` [SolanaFM](https://docs.solana.fm/api-reference/tokens): Tokens that are "verified" on the solana-fm list.
-- `tags` Unknown: Assets that were [picked up automatically by Jupiter](/docs/get-your-token-onto-jup).
-- `tags` Token2022: Tokens on the [Token-2022 Program](https://spl.solana.com/token-2022).
-- `extensions` isBanned: Generally fake tokens trying to impersonate another project (E.g. fake wSOL), flagged by our community.
-
-## Our UI on Jup.ag
-
-On our UI, we have 2 modes. The default that all users land on is the "strict" mode, without unknown and banned tokens. Users can choose to toggle on the full list with the "all" mode at the bottom of the token selection modal.
-
-![token list](token-list.jpg)
-
-## Community Validation for Strict Mode (BETA)
-
-Anyone can propose an addition to the strict list. You can refer to [Getting on the strict list](/docs/get-your-token-onto-jup#getting-on-the-strict-list) to know more about our community-driven process. This new process is still in its early days, and we ask for your patience as we iterate.
-
-
-## Collaborate with us 🤝 
-
-The Jupiter Token API is still early and we want to work w everyone – users, community members, protocols and data consumers to build a better one for the ecosystem.
-
-If you have your own data (e.g. your own validation process, bridged / staked token lists) -- talk to us.
-
-**Join the Token Revolution, Together We List!**
+## Resources
+ 
+- [Background and History](https://www.jupresear.ch/t/ecosystem-master-token-list/19786)
+- [Introducing the Ecosystem Token API and standard](https://www.jupresear.ch/t/introducing-the-ecosystem-token-api-and-standard/20601)

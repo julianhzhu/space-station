@@ -12,8 +12,8 @@ const nft = '/img/nft.png';
 const game = '/img/game.png';
 const infra = '/img/infra.png';
 
-const bitget = 'img/wallet/bitget.png'
-const crypto = 'img/wallet/crypto.png'
+const bitget = 'img/wallet/bitget.png';
+const crypto = 'img/wallet/crypto.png';
 const gemwallet = '/img/wallet/gemwallet.svg';
 const phantom = '/img/wallet/phantom.svg';
 const solflare = '/img/wallet/solflare.svg';
@@ -44,7 +44,9 @@ const marginfi = '/img/defi/marginfi.svg';
 const samoyed = '/img/defi/samoyed.svg';
 const hawksight = '/img/defi/hawksight.png';
 const drift = '/img/defi/drift.png';
-const vybe = '/img/defi/vybe.svg'
+const vybe = '/img/defi/vybe.svg';
+const coinhall = '/img/defi/coinhall.svg';
+const vaultka = '/img/defi/vaultka.png';
 
 const aldrin = '/img/dex_amm/aldrin.png';
 const balansol = '/img/dex_amm/balansol.svg';
@@ -166,7 +168,7 @@ const sections = [
       {
         title: 'Backpack',
         logo: backpack,
-        link: 'https://www.backpack.app/',
+        link: 'https://backpack.app/',
       },
       {
         title: 'Frontier Wallet',
@@ -260,10 +262,10 @@ const sections = [
       {
         title: 'Mango',
         logo: mango,
-        link: 'https://mango.markets/'
+        link: 'https://mango.markets/',
       },
       {
-        title: 'Marinade Finance',
+        title: 'Marinade',
         logo: marinade,
         link: 'https://marinade.finance/',
       },
@@ -280,12 +282,12 @@ const sections = [
       {
         title: 'Samoyed',
         logo: samoyed,
-        link: 'https://dogcoincomparison.com/'
+        link: 'https://dogcoincomparison.com/',
       },
       {
         title: 'Hawksight',
         logo: hawksight,
-        link: 'https://www.hawksight.co/'
+        link: 'https://www.hawksight.co/',
       },
       {
         title: 'Drift',
@@ -296,7 +298,17 @@ const sections = [
         title: 'Vybe Network',
         logo: vybe,
         link: 'https://alpha.vybenetwork.com'
-      }
+      },
+      {
+	title: 'Coinhall',
+	logo: coinhall,
+	link: 'https://coinhall.org'
+      },
+      {
+        title: 'Vaultka',
+        logo: vaultka,
+        link: 'https://www.vaultka.com'
+      },
     ],
   },
   {
@@ -346,11 +358,6 @@ const sections = [
         title: 'Crema',
         logo: crema,
         link: 'https://www.crema.finance/',
-      },
-      {
-        title: 'Marinade',
-        logo: marinade,
-        link: 'https://marinade.finance/',
       },
       {
         title: 'Saber',
@@ -446,7 +453,7 @@ const sections = [
         title: 'Step Finance',
         logo: stepfinance,
         link: 'https://www.step.finance/',
-      }
+      },
     ],
   },
   {
@@ -549,11 +556,11 @@ const sections = [
         logo: sphere,
         link: 'https://spherepay.co/',
       },
-	  {
-		title: 'Elusiv',
-		logo: elusiv,
-		link: 'https://elusiv.io/',
-	  }
+      {
+        title: 'Elusiv',
+        logo: elusiv,
+        link: 'https://elusiv.io/',
+      },
     ],
   },
   {
@@ -628,6 +635,7 @@ const ButtonFilter = ({ children, active }) => (
   cursor-pointer
   rounded-[30px]
   text-black/50
+  dark:text-white/90
   font-light
   text-sm text-black px-4 py-2 border-solid
   border-gray-200 ml-2 ${active ? 'bg-black/5!' : 'bg-transparent'}`}
@@ -644,9 +652,9 @@ export default function Home(): JSX.Element {
 
   const { search } = useLocation();
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       const params = new URLSearchParams(search);
-      const cateogry = params.get("category");
+      const cateogry = params.get('category');
 
       if (cateogry) {
         setSelectedCat(cateogry);
@@ -670,24 +678,29 @@ export default function Home(): JSX.Element {
               <br></br>
               Are you building something cool?
               <br></br>
-              Let us know or checkout our docs on{" "}
-              <a href="/docs" className="underline text-black font-bold">
+              Let us know or checkout our docs on{' '}
+              <a
+                href="/docs"
+                className="underline text-blue dark:text-whitefont-bold"
+              >
                 how to get started.
               </a>
             </div>
           </div>
         </div>
         <div className="container pl-0 mb-14">
-          <h2 className="text-2xl font-bold text-black">Explore projects</h2>
+          <h2 className="text-2xl font-bold text-black dark:text-white">
+            Explore projects
+          </h2>
           <div>
             <div role="list" className="powered-categoryes-wrap w-dyn-items">
               <Link href={`?`}>
                 <div
                   role="listitem"
                   className="inline-block"
-                  onClick={() => onSelectCat("all")}
+                  onClick={() => onSelectCat('all')}
                 >
-                  <ButtonFilter active={selectedCat === "all"}>
+                  <ButtonFilter active={selectedCat === 'all'}>
                     All
                   </ButtonFilter>
                 </div>
@@ -720,7 +733,7 @@ export default function Home(): JSX.Element {
                       target="_blank"
                       href={card.link}
                       key={card.title}
-                      className="relative !no-underline rounded-lg border border-solid border-gray-200 dark:border-gray-700 flex items-center flex-col text-black"
+                      className="relative !no-underline rounded-lg border border-solid border-gray-200 dark:border-gray-700 flex items-center flex-col text-black dark:text-white dark:bg-white/10"
                       rel="noreferrer"
                     >
                       <div

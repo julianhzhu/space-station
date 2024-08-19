@@ -88,7 +88,7 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          sidebarCollapsed: false,
+          sidebarCollapsed: true,
           editUrl: "https://github.com/jup-ag/space-station/tree/main/",
           // docLayoutComponent: "@theme/DocPage",
           // docItemComponent: "@theme/ApiItem", // Derived from docusaurus-theme-openapi-docs
@@ -119,54 +119,65 @@ const config = {
       "content-docs",
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       ({
+        id: "jup",
+        path: "jup",
+        routeBasePath: "jup",
+        sidebarPath: require.resolve("./sidebars-guides.js"),
+        sidebarCollapsed: true,
+        editUrl: "https://github.com/jup-ag/space-station/tree/main/",
+      }),
+    ],
+    [
+      "content-docs",
+      /** @type {import('@docusaurus/plugin-content-docs').Options} */
+      ({
         id: "guides",
         path: "guides",
         routeBasePath: "guides",
         sidebarPath: require.resolve("./sidebars-guides.js"),
-        sidebarCollapsed: false,
+        sidebarCollapsed: true,
         editUrl: "https://github.com/jup-ag/space-station/tree/main/",
       }),
     ],
     [
-      "content-docs",
-      /** @type {import('@docusaurus/plugin-content-docs').Options} */
-      ({
-        id: "labs",
-        path: "labs",
-        routeBasePath: "labs",
-        sidebarPath: require.resolve("./sidebars-guides.js"),
-        sidebarCollapsed: false,
-        editUrl: "https://github.com/jup-ag/space-station/tree/main/",
-      }),
-    ],
-    [
-      "content-docs",
-      /** @type {import('@docusaurus/plugin-content-docs').Options} */
-      ({
-        id: "start",
-        path: "start",
-        routeBasePath: "start",
-        sidebarPath: require.resolve("./sidebars-guides.js"),
-        sidebarCollapsed: false,
-        editUrl: "https://github.com/jup-ag/space-station/tree/main/",
-      }),
-    ],
-    [
-      "content-docs",
-      /** @type {import('@docusaurus/plugin-content-docs').Options} */
-      ({
-        id: "JUP",
-        path: "JUP",
-        routeBasePath: "JUP",
-        sidebarPath: require.resolve("./sidebars-jup.js"),
-        sidebarCollapsed: false,
-      }),
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            to: '/guides/perpetual-exchange/overview',
+            from: '/labs/perpetual-exchange/overview',
+          },
+          {
+            to: '/guides/perpetual-exchange/overview',
+            from: '/labs',
+          },
+          {
+            to: '/guides/perpetual-exchange/trading',
+            from: '/labs/perpetual-exchange/trading',
+          },
+          {
+            to: '/guides/jlp/JLP',
+            from: '/labs/perpetual-exchange/jlp-pool',
+          },
+          {
+            to: '/guides/jlp/How-JLP-Works',
+            from: '/labs/perpetual-exchange/how-it-works',
+          },
+          {
+            to: '/guides/jlp/How-JLP-Works',
+            from: '/labs/faq/faq',
+          },
+          {
+            to: '/guides/jlp/How-JLP-Works',
+            from: '/labs/perps-faq',
+          },
+        ],
+      },
     ],
     async function myPlugin() {
       return {
         name: "docusaurus-tailwindcss",
         configurePostCss(postcssOptions) {
-          // Appends TailwindCSS and AutoPrefixer.
           postcssOptions.plugins.push(require("tailwindcss"));
           postcssOptions.plugins.push(require("autoprefixer"));
           return postcssOptions;
@@ -196,7 +207,7 @@ const config = {
       colorMode: {
         defaultMode: "light",
         disableSwitch: true,
-        respectPrefersColorScheme: false,
+        respectPrefersColorScheme: true,
       },
       navbar: {
         title: "Jupiter Station",
@@ -209,7 +220,7 @@ const config = {
         items: [
           {
             to: "/jup",
-            label: "J.U.P",
+            label: "JUP",
             position: "left",
           },
           {
@@ -223,14 +234,9 @@ const config = {
             label: "Docs",
           },
           {
-            to: "/labs",
+            to: "/api-v6",
             position: "left",
-            label: "Labs",
-          },
-          {
-            to: "/start",
-            position: "left",
-            label: "Start",
+            label: "API Playground",
           },
           {
             to: "/partners",

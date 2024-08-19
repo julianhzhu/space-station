@@ -1,9 +1,14 @@
 ---
 sidebar_label: DCA with SDK
-description: Typescript / Javascript
+description: Integrate Dollar Cost Averaging (DCA) in JS/TS with Jupiter. Streamline trading with our guide and practical code examples.
+title: Integrating DCA (JS/TS)
 ---
 
-# Integrating DCA (JS/TS)
+<head>
+    <title>Integrating Jupiter DCA With Javascript and Typescript</title>
+    <meta name="twitter:card" content="summary" />
+</head>
+
 
 > Following code is tested to work with
 ```
@@ -11,9 +16,9 @@ NodeJS v20
 @jup-ag/dca-sdk@2.3.5
 ```
 
-To ease integration, you may use [DCA SDK](https://www.npmjs.com/package/@jup-ag/dca-sdk/v/2.3.5)
+To ease integration, you may want to use Jupiter's [DCA SDK](https://www.npmjs.com/package/@jup-ag/dca-sdk/v/2.3.5)
 
-The following example is for a NodeJS environment but you can also adapt it to work in a frontend browser application. The only difference is in how you sign and send a transaction.
+The following example is for a NodeJS environment. This example can be adapted to work in a frontend browser application. The only difference is in how you sign and send a transaction.
 
 Code example and description as comments in-line:
 
@@ -47,8 +52,8 @@ async function createDCA() {
     cycleSecondsApart: BigInt(86400), // 1 day between each order -> 60 * 60 * 24
     inputMint: USDC, // sell
     outputMint: BONK, // buy
-    minOutAmountPerCycle: null,  // effectively allows for a min price. refer to Integration doc
-    maxOutAmountPerCycle: null, // effectively allows for a max price. refer to Integration doc
+    minOutAmountPerCycle: null,  // effectively allows for a max price. refer to Integration doc
+    maxOutAmountPerCycle: null, // effectively allows for a min price. refer to Integration doc
     startAt: null, // unix timestamp in seconds
     userInTokenAccount, // optional: if the inputMint token is not in an Associated Token Account but some other token account, pass in the PublicKey of the token account, otherwise, leave it undefined
   };

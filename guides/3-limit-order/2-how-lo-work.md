@@ -1,12 +1,19 @@
-# How Limit Order Works
+---
+sidebar_label: How Limit Order Works
+title: How Limit Order Works
+description: "Discover how Jupiter's limit orders utilize Solana's liquidity for seamless, front-running-free trading. Perfect for all traders."
+---
 
-Jupiter Limit Order provides the easiest way to place limit orders on Solana, offering the widest selection of token pairs and leveraging all the available liquidity across the entire Solana ecosystem. With Jupiter Limit Order, you have the flexibility to buy or sell any token pair according to your specified price limit.
+<head>
+    <title>How Limit Orders Work on Jupiter: Beginners Guide</title>
+    <meta name="twitter:card" content="summary" />
+</head>
+
+Jupiter Limit Order executes your order based on the price you have set by matching it with the available liquidity on-chain across Solana. Once the order is placed, keepers will continuously monitor the liquidity landscape and execute the limit order when the market price reaches your specified limit. 
 
 :::info Not an Order Book
 This is not an order book system. The limit order system utilizes a keeper to monitor token prices on-chain and trigger the fulfillment of orders if liquidity is available.
 :::
-
-Jupiter Limit Order executes your order based on the price you have set by matching it with the available liquidity on-chain across Solana. Once the order is placed, keepers will continuously monitor the liquidity landscape and execute the limit order when the market price reaches your specified limit. 
 
 **Scenario**
 - If a Limit Order is placed to buy 1 $SOL with 10 USDC at a rate of 10 USDC per $SOL.
@@ -22,10 +29,10 @@ Jupiter Limit Order executes your order based on the price you have set by match
 1. Users are able to create limit orders, providing a Centralized Exchange (CEX) experience on Solana.
 2. Liquidity from anywhere on Solana is utilized to fulfill the trade. 
 3. Users can place an order with an expiration time. At the end of the period, the system will automatically cancel any unfilled orders and refund the tokens to the user's wallet.
-4. Limit orders ensure that you get what you quote with no slippage, which is especially useful during volatile periods.
+4. Limit orders ensure that you get what you've been quoted with no slippage. This is especially useful during volatile trading periods.
 5. Transactions will not fail due to slippage errors.
 6. Jupiter Limit Order offers a wider range of token selections. As long as there is sufficient liquidity in the market, the token pair will be available to trade (execution will be based on available liquidity on-chain).
-7. You will never get front-run by MEV, experience no slippage, and get exactly what you quote. This feature is particularly useful in highly volatile markets, ensuring that transactions won’t fail due to slippage errors.
+7. You will never get front-run by MEV.
 
 -----
 
